@@ -39,11 +39,11 @@ const covid19ImpactEstimator = (data) => {
   severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected * (2 ** factor);
 
   // Challenge 2
-  impact.severeCasesByRequestedTime = impact.infectionsByRequestedTime * percentGrowth;
-  severeImpact.severeCasesByRequestedTime = severeImpact.infectionsByRequestedTime * percentGrowth;
+  impact.severeCasesByRequestedTime = Math.trunc(impact.infectionsByRequestedTime * percentGrowth);
+  severeImpact.severeCasesByRequestedTime = Math.trunc(severeImpact.infectionsByRequestedTime * percentGrowth);
 
   // Calculate available bed space
-  const findBedSpace = (totalBed, infectionCases) => (totalBed * 0.35) - infectionCases;
+  const findBedSpace = (totalBed, infectionCases) => Math.trunc((totalBed * 0.35) - infectionCases);
   // Calculate the available space based on severity
   impact.hospitalBedsByRequestedTime = findBedSpace(totalHospitalBeds,
     impact.severeCasesByRequestedTime);
@@ -51,18 +51,20 @@ const covid19ImpactEstimator = (data) => {
     severeImpact.severeCasesByRequestedTime);
 
   // Challenge 3
-  impact.casesForICUByRequestedTime = impact.infectionsByRequestedTime * 0.05;
-  severeImpact.casesForICUByRequestedTime = severeImpact.infectionsByRequestedTime * 0.05;
+  impact.casesForICUByRequestedTime = Math.trunc(impact.infectionsByRequestedTime * 0.05);
+  severeImpact.casesForICUByRequestedTime = Math.trunc(severeImpact.infectionsByRequestedTime * 0.05);
 
-  impact.casesForVentilatorsByRequestedTime = impact.infectionsByRequestedTime * 0.02;
-  severeImpact.casesForVentilatorsByRequestedTime = severeImpact.infectionsByRequestedTime * 0.02;
+  impact.casesForVentilatorsByRequestedTime = Math.trunc(impact.infectionsByRequestedTime * 0.02);
+  severeImpact.casesForVentilatorsByRequestedTime = Math.trunc(severeImpact.infectionsByRequestedTime * 0.02);
 
   // calculate the economic impact based on severity
   impact.dollarsInFlight = impact.infectionsByRequestedTime
   * avgDailyIncomeInUSD * avgDailyIncomePopulation * infectedDuration;
+  impact.dollarsInFlight = Math.round(impact.dollarsInFlight, 2);
 
   severeImpact.dollarsInFlight = severeImpact.infectionsByRequestedTime
   * avgDailyIncomeInUSD * avgDailyIncomePopulation * infectedDuration;
+  severeImpact.dollarsInFlight = Math.round(severeImpact.dollarsInFlight, 2);
 
   // Return the calculate data
   return {
