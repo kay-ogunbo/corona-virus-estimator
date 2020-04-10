@@ -39,8 +39,10 @@ const covid19ImpactEstimator = (data) => {
   severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected * (2 ** factor);
 
   // Challenge 2
-  impact.severeCasesByRequestedTime = Math.trunc(impact.infectionsByRequestedTime * percentGrowth);
-  severeImpact.severeCasesByRequestedTime = Math.trunc(severeImpact.infectionsByRequestedTime * percentGrowth);
+  const severeCase = (impactInfection, growth) => Math.trunc(impactInfection * growth);
+  impact.severeCasesByRequestedTime = severeCase(impact.infectionsByRequestedTime, percentGrowth);
+  severeImpact.severeCasesByRequestedTime = severeCase(severeImpact.infectionsByRequestedTime,
+    percentGrowth);
 
   // Calculate available bed space
   const findBedSpace = (totalBed, infectionCases) => Math.trunc((totalBed * 0.35) - infectionCases);
@@ -51,11 +53,14 @@ const covid19ImpactEstimator = (data) => {
     severeImpact.severeCasesByRequestedTime);
 
   // Challenge 3
-  impact.casesForICUByRequestedTime = Math.trunc(impact.infectionsByRequestedTime * 0.05);
-  severeImpact.casesForICUByRequestedTime = Math.trunc(severeImpact.infectionsByRequestedTime * 0.05);
+  const casesICU = (infectionRate, growth) => Math.trunc(infectionRate * growth);
+  impact.casesForICUByRequestedTime = casesICU(impact.infectionsByRequestedTime, 0.05);
+  severeImpact.casesForICUByRequestedTime = casesICU(severeImpact.infectionsByRequestedTime, 0.05);
 
-  impact.casesForVentilatorsByRequestedTime = Math.trunc(impact.infectionsByRequestedTime * 0.02);
-  severeImpact.casesForVentilatorsByRequestedTime = Math.trunc(severeImpact.infectionsByRequestedTime * 0.02);
+  const ventil = (InfectionRateVen, venGrowth) => Math.trunc(InfectionRateVen * venGrowth);
+  impact.casesForVentilatorsByRequestedTime = ventil(impact.infectionsByRequestedTime, 0.02);
+  severeImpact.casesForVentilatorsByRequestedTime = ventil(severeImpact.infectionsByRequestedTime,
+    0.02);
 
   // calculate the economic impact based on severity
   impact.dollarsInFlight = impact.infectionsByRequestedTime
