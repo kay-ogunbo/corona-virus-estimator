@@ -22,7 +22,7 @@ const covid19ImpactEstimator = (data) => {
   const estimateNumberOfDays = (value) => ({
     months: timeToElapse * month,
     weeks: timeToElapse * week,
-    default: timeToElapse
+    days: timeToElapse
   })[value];
 
 
