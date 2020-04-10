@@ -27,15 +27,15 @@ const covid19ImpactEstimator = (data) => {
 
 
   // Challenge 1
-  impact.currentlyInfected = reportedCases * estimatedInfectionRate;
-  severeImpact.currentlyInfected = reportedCases * severeEstimatedInfectionRate;
+  impact.currentlyInfected = Math.trunc(reportedCases * estimatedInfectionRate);
+  severeImpact.currentlyInfected = Math.trunc(reportedCases * severeEstimatedInfectionRate);
 
   // find the factor
   const infectedDuration = estimateNumberOfDays(periodType);
-  const factor = Math.floor(infectedDuration / growthRate);
+  const factor = Math.trunc(infectedDuration / growthRate);
 
   // calculate the estimated infection rate
-  impact.infectionsByRequestedTime = impact.currentlyInfected * (2 ** factor);
+  impact.infectionsByRequestedTime = (impact.currentlyInfected * (2 ** factor);
   severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected * (2 ** factor);
 
   // Challenge 2
