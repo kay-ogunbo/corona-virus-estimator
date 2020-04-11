@@ -17,8 +17,10 @@ const covid19ImpactEstimator = (data) => {
   const impact = {};
   const severeImpact = {};
 
+  // Destructure the region field into its various components
   const { avgDailyIncomeInUSD, avgDailyIncomePopulation } = region;
 
+  // Convert the periodType to months, weeks and days
   const estimateNumberOfDays = (value) => ({
     months: timeToElapse * month,
     weeks: timeToElapse * week,
