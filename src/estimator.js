@@ -32,7 +32,7 @@ const covid19ImpactEstimator = (data) => {
 
   // find the factor
   const infectedDuration = estimateNumberOfDays(periodType);
-  const factor = Math.trunc(infectedDuration / growthRate);
+  const factor = Math.floor(infectedDuration / growthRate);
 
   // calculate the estimated infection rate
   impact.infectionsByRequestedTime = impact.currentlyInfected * (2 ** factor);
