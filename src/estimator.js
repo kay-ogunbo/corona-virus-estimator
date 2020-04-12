@@ -56,11 +56,11 @@ const covid19ImpactEstimator = (data) => {
     severeImpact.severeCasesByRequestedTime);
 
   // Challenge 3
-  const casesICU = (infectionRate, growth) => infectionRate * growth;
+  const casesICU = (infectionRate, growth) => Math.trunc(infectionRate * growth);
   impact.casesForICUByRequestedTime = casesICU(impact.infectionsByRequestedTime, 0.05);
   severeImpact.casesForICUByRequestedTime = casesICU(severeImpact.infectionsByRequestedTime, 0.05);
 
-  const ventil = (InfectionRateVen, venGrowth) => InfectionRateVen * venGrowth;
+  const ventil = (InfectionRateVen, venGrowth) => Math.trunc(InfectionRateVen * venGrowth);
   impact.casesForVentilatorsByRequestedTime = ventil(impact.infectionsByRequestedTime, 0.02);
   severeImpact.casesForVentilatorsByRequestedTime = ventil(severeImpact.infectionsByRequestedTime,
     0.02);
@@ -81,5 +81,4 @@ const covid19ImpactEstimator = (data) => {
     severeImpact
   };
 };
-
 export default covid19ImpactEstimator;
