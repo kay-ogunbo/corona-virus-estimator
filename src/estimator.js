@@ -29,17 +29,17 @@ const covid19ImpactEstimator = (data) => {
 
 
   // Challenge 1
-  impact.currentlyInfected = Math.floor(reportedCases * estimatedInfectionRate);
-  severeImpact.currentlyInfected = Math.floor(reportedCases * severeEstimatedInfectionRate);
+  impact.currentlyInfected = reportedCases * estimatedInfectionRate;
+  severeImpact.currentlyInfected = reportedCases * severeEstimatedInfectionRate;
 
   // find the factor
   const infectedDuration = estimateNumberOfDays(periodType);
   const factor = Math.floor(infectedDuration / growthRate);
 
   // calculate the estimated infection rate
-  impact.infectionsByRequestedTime = Math.floor(impact.currentlyInfected * (2 ** factor));
-  severeImpact.infectionsByRequestedTime = Math.floor(severeImpact.currentlyInfected
-    * (2 ** factor));
+  impact.infectionsByRequestedTime = impact.currentlyInfected * (2 ** factor);
+  severeImpact.infectionsByRequestedTime = severeImpact.currentlyInfected
+    * (2 ** factor);
 
   // Challenge 2
   const severeCase = (impactInfection, growth) => Math.floor(impactInfection * growth);
@@ -56,11 +56,11 @@ const covid19ImpactEstimator = (data) => {
     severeImpact.severeCasesByRequestedTime);
 
   // Challenge 3
-  const casesICU = (infectionRate, growth) => Math.floor(infectionRate * growth);
+  const casesICU = (infectionRate, growth) => infectionRate * growth;
   impact.casesForICUByRequestedTime = casesICU(impact.infectionsByRequestedTime, 0.05);
   severeImpact.casesForICUByRequestedTime = casesICU(severeImpact.infectionsByRequestedTime, 0.05);
 
-  const ventil = (InfectionRateVen, venGrowth) => Math.floor(InfectionRateVen * venGrowth);
+  const ventil = (InfectionRateVen, venGrowth) => InfectionRateVen * venGrowth;
   impact.casesForVentilatorsByRequestedTime = ventil(impact.infectionsByRequestedTime, 0.02);
   severeImpact.casesForVentilatorsByRequestedTime = ventil(severeImpact.infectionsByRequestedTime,
     0.02);
