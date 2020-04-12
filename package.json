@@ -8,6 +8,7 @@
     "lint": "eslint ./src/"
   },
   "dependencies": {
+    "core-util-is": "^1.0.2",
     "on-covid-19": "^0.1.3"
   },
   "devDependencies": {
